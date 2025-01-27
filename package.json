@@ -1,0 +1,15 @@
+{
+    "name": "master-backend",
+    "version": "1.0.0",
+    "description": "master-backend",
+    "main": "server.js",
+    "type": "module",
+    "scripts": {
+        "dev": "nodemon src/server.js"
+    },
+    "author": "Deepak Goswami <deepakgoswamiofficial@gmail.com>",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.21.2"
+    }
+}
