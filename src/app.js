@@ -7,7 +7,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 // Health check route
 app.get(`${config.apiPrefix}/healthcheck`, (_, res) => {
@@ -20,6 +20,5 @@ app.get(`${config.apiPrefix}/healthcheck`, (_, res) => {
 // Routes
 app.use(`${config.apiPrefix}/auth`, authRouter);
 app.use(globalErrorHandler);
-
 
 export default app;
