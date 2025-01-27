@@ -1,6 +1,7 @@
 import express from 'express';
 import { config } from './config/index.js';
 import authRouter from './routes/auth.router.js';
+import { globalErrorHandler } from './middleware/globalErrorHandler.middleware.js';
 
 const app = express();
 
@@ -18,5 +19,7 @@ app.get(`${config.apiPrefix}/healthcheck`, (_, res) => {
 
 // Routes
 app.use(`${config.apiPrefix}/auth`, authRouter);
+app.use(globalErrorHandler);
+
 
 export default app;
