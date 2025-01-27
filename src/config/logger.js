@@ -1,5 +1,5 @@
 import winston from "winston";
-
+//TODO: Recheck the logger configuration
 export const logger = winston.createLogger({
     level: "info",
     defaultMeta: {
