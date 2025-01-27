@@ -6,3 +6,5 @@
 - [x] Prisma
 - [x] Express-validator
 - [x] http-errors
+- [x] winston
+- [x] uuid
