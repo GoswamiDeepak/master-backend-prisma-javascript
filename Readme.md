@@ -5,3 +5,4 @@
 - [x] Dotenv
 - [x] Prisma
 - [x] Express-validator
+- [x] http-errors

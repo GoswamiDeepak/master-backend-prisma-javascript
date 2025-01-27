@@ -25,13 +25,13 @@ export default checkSchema({
         },
         custom: {
             options: async (value) => {
-                const user = await prisma.users.findUnique({
-                    where: { email: value }
-                });
-                if (user) {
-                    throw new Error("Email already exists");
-                }
-                return true;
+                // const user = await prisma.users.findUnique({
+                //     where: { email: value }
+                // });
+                // if (user) {
+                //     throw new Error("Email already exists");
+                // }
+                // return true;
             }
         }
     },
