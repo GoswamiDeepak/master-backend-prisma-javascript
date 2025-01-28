@@ -14,11 +14,22 @@ datasource db {
 }
 
 model Users {
-  id Int @id @default(autoincrement())
-  name String @db.VarChar(191)
-  email String @unique @db.VarChar(191)
-  password String
-  profile String?
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  id           Int            @id @default(autoincrement())
+  name         String         @db.VarChar(191)
+  email        String         @unique @db.VarChar(191)
+  password     String
+  profile      String?
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @default(now())
+  refreshToken RefreshTokens?
 }
+
+model RefreshTokens {
+  id         Int      @id @default(autoincrement())
+  expireAt   DateTime
+  userId     Int      @unique
+  user       Users    @relation(fields: [userId], references: [id])
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+}
+
