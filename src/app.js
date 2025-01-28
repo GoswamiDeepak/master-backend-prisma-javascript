@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
 // Health check route
 app.get(`/`, (req, res) => {
     res.json({ message: 'Welcome to master-backend' });

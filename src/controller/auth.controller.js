@@ -104,16 +104,55 @@ export class AuthController {
         }
     };
 
-    me = async (req, res,next) => {
+    me = async (req, res, next) => {
         const user = req.user;
-        console.log(user)
-    }
+        console.log(user);
+    };
 
     profileUpload = async (req, res, next) => {
+        try {
+            if (!req.file) {
+                return next(createHttpError(400, 'Please upload a file'));
+            }
 
-    }
+            // Access uploaded file
+            const file = req.file;
 
-    logout = async (req, res, next) => {
+            // Update user profile
+            const updatedUser = await prisma.users.update({
+                where: { id: parseInt(req.params.id) },
+                data: { profile: file.filename },
+            });
 
-    }
+            res.json({
+                message: 'Profile updated successfully',
+                data: updatedUser,
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    uploadGallery = async (req, res, next) => {
+        try {
+            if (!req.files || req.files.length === 0) {
+                return next(
+                    createHttpError(400, 'Please upload at least one file')
+                );
+            }
+
+            // Access multiple files
+            const files = req.files;
+            // Process files...
+
+            res.json({
+                message: 'Gallery uploaded successfully',
+                files: files.map((f) => f.filename),
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    logout = async (req, res, next) => {};
 }
