@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const globalErrorHandler = (error, req, res, next) => {
     const errorId = uuidv4();
     const statusCode = error.status || 500;
-    const isProduction = process.env.NODE_ENV === 'production';
+    const isProduction = process.env.NODE_ENV === 'prod';
     const message = isProduction ? 'Internal server Error' : error.message;
 
     logger.error(error.message, {

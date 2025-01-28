@@ -7,18 +7,16 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
 
 // Health check route
-app.get(`${config.apiPrefix}/healthcheck`, (_, res) => {
-    res.status(200).json({
-        status: 'success',
-        message: 'Server is running',
-    });
+app.get(`/`, (req, res) => {
+    res.json({ message: 'Welcome to master-backend' });
 });
 
 // Routes
 app.use(`${config.apiPrefix}/auth`, authRouter);
+
 app.use(globalErrorHandler);
 
 export default app;

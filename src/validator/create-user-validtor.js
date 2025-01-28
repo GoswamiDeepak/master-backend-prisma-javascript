@@ -31,7 +31,7 @@ export default checkSchema({
                 // if (user) {
                 //     throw new Error("Email already exists");
                 // }
-                // return true;
+                return true;
             },
         },
     },

@@ -8,3 +8,4 @@
 - [x] http-errors
 - [x] winston
 - [x] uuid
+- [x] bcryptjs

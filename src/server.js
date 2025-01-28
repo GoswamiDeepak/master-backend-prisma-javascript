@@ -5,5 +5,5 @@ import { logger } from './config/logger.js';
 const PORT = config.port;
 
 app.listen(PORT, () => {
-    logger.info(`Listening on PORT: ${PORT}`);
+    console.log(`Listening on PORT: ${PORT}`);
 });
