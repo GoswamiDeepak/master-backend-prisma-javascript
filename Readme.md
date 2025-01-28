@@ -9,3 +9,4 @@
 - [x] winston
 - [x] uuid
 - [x] bcryptjs
+- [x] cookieparser

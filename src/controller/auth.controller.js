@@ -103,4 +103,17 @@ export class AuthController {
             next(error);
         }
     };
+
+    me = async (req, res,next) => {
+        const user = req.user;
+        console.log(user)
+    }
+
+    profileUpload = async (req, res, next) => {
+
+    }
+
+    logout = async (req, res, next) => {
+
+    }
 }
