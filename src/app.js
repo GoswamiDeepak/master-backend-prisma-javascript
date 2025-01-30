@@ -6,6 +6,7 @@ import authRouter from './routes/auth.router.js';
 import newRouter from './routes/news.router.js';
 import { globalErrorHandler } from './middleware/globalErrorHandler.middleware.js';
 import cookieParser from 'cookie-parser';
+import limiter from './config/rateLimter.js';
 
 const app = express();
 
@@ -20,7 +21,7 @@ app.use(
         credentials: true,
     })
 );
-
+app.use(limiter)
 // Health check route
 app.get(`/`, (req, res) => {
     res.json({ message: 'Welcome to master-backend' });

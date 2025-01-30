@@ -22,15 +22,30 @@ export class TokenService {
     }
 
     async persistRefreshToken(user) {
-        const MS_IN_YEAR = 1000 * 60 * 60 * 24 * 365; //1y
-        const expiry = new Date(Date.now() + MS_IN_YEAR);
+        try {
+            // First, delete any existing refresh token for this user
+            await prisma.refreshTokens.deleteMany({
+                where: {
+                    userId: user.id,
+                },
+            });
 
-        return await prisma.refreshTokens.create({
-            data: {
-                userId: user.id,
-                expireAt: expiry,
-                // isRevoked: false
-            },
-        });
+            // Then create a new refresh token
+            return await prisma.refreshTokens.create({
+                data: {
+                    userId: user.id,
+                    expireAt: new Date(
+                        Date.now() +
+                            1000 *
+                                60 *
+                                60 *
+                                24 *
+                                (new Date().getFullYear() % 4 === 0 ? 366 : 365)
+                    ),
+                },
+            });
+        } catch (error) {
+            throw error;
+        }
     }
 }
