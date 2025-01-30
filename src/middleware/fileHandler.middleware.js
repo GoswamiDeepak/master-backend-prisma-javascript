@@ -16,9 +16,18 @@ const storage = multer.diskStorage({
         cb(null, 'public/temp');
     },
     filename: function (req, file, cb) {
-        const fileName = `${file.fieldname}-${Date.now()}${path.extname(
-            file.originalname
-        )}`;
+        /**
+         * {
+                fieldname: 'image',
+                originalname: '1714111008754.png',
+                encoding: '7bit',
+                mimetype: 'image/png'
+            }
+         */
+        // const fileName = `${file.fieldname}-${Date.now()}${path.extname(
+        //     file.originalname
+        // )}`;
+        const fileName = `${Date.now()}-${file.originalname}`;
         cb(null, fileName);
     },
 });

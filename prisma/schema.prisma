@@ -32,7 +32,7 @@ model RefreshTokens {
   updatedAt  DateTime @updatedAt
   createdAt  DateTime @default(now())
 }
-
+ 
 model News {
     id         Int      @id @default(autoincrement())
     user_id    Int

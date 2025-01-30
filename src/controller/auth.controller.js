@@ -40,6 +40,7 @@ export class AuthController {
 
     login = async (req, res, next) => {
         const result = validationResult(req);
+
         if (!result.isEmpty()) {
             return next(createHttpError(400, result.array()[0].msg));
         }
@@ -56,7 +57,7 @@ export class AuthController {
                 );
             }
             const isValid = await bcrypt.compare(password, isUser.password);
-            console.log(isValid);
+            // console.log(isValid);
             if (!isValid) {
                 return next(createHttpError(400, 'Invalid Credentials!'));
             }
@@ -107,7 +108,7 @@ export class AuthController {
 
     me = async (req, res, next) => {
         const user = req.user;
-        console.log(user);
+        // console.log(user);
     };
 
     profileUpload = async (req, res, next) => {
