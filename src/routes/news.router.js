@@ -19,14 +19,19 @@ const newsController = new NewsController();
 // );
 router.post(
     '/',
-    // auth,
+    auth,
     uploadHandlers.single('image'),
     newsValidator,
     asyncWrapper(newsController.store)
 );
 router.get('/', asyncWrapper(newsController.index));
 router.get('/:id', asyncWrapper(newsController.show));
-router.put('/:id', auth, asyncWrapper(newsController.update));
+router.put(
+    '/:id',
+    uploadHandlers.single('image'),
+    auth,
+    asyncWrapper(newsController.update)
+);
 router.delete('/:id', auth, asyncWrapper(newsController.destroy));
 
 export default router;

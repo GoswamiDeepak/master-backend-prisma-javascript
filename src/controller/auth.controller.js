@@ -16,7 +16,7 @@ export class AuthController {
         const { name, email, password } = req.body;
         // * Check if email is already exist
         const user = await prisma.users.findUnique({
-            where: { email: value },
+            where: { email},
         });
         if (user) {
             return next(createHttpError(400, 'Email is already exists.'));

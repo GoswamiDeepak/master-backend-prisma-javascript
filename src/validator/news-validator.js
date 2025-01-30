@@ -4,22 +4,27 @@ export default checkSchema({
     title: {
         trim: true,
         notEmpty: {
-            errorMessage: 'title cannot be empty',
+            errorMessage: 'Title cannot be empty',
+        },
+        isLength: {
+            options: { max: 200 },
+            errorMessage: 'Title cannot exceed 200 characters',
         },
     },
     content: {
+        trim: true,
         notEmpty: {
-            errorMessage: 'content cannot be empty',
+            errorMessage: 'Content cannot be empty',
         },
     },
     image: {
-        notEmpty: {
-            errorMessage: 'image is required.',
-        },
+        // notEmpty: {
+        //     errorMessage: 'image is required.',
+        // },
         custom: {
             options: (value, { req }) => {
-                if (!req.files) {
-                    throw new Error('Image is required.');
+                if (!req.file) {
+                    throw new Error('Image is required. validation failed!');
                 }
                 return true;
             },
