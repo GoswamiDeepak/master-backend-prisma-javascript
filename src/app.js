@@ -1,6 +1,7 @@
 import express from 'express';
 import { config } from './config/index.js';
 import authRouter from './routes/auth.router.js';
+import newRouter from './routes/news.router.js';
 import { globalErrorHandler } from './middleware/globalErrorHandler.middleware.js';
 import cookieParser from 'cookie-parser';
 
@@ -18,6 +19,7 @@ app.get(`/`, (req, res) => {
 
 // Routes
 app.use(`${config.apiPrefix}/auth`, authRouter);
+app.use(`${config.apiPrefix}/news`, newRouter);
 
 app.use(globalErrorHandler);
 

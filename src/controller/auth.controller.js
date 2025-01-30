@@ -3,6 +3,7 @@ import createHttpError from 'http-errors';
 import bcrypt from 'bcryptjs';
 import { logger } from '../config/logger.js';
 import prisma from '../../DB/db.config.js';
+import { config } from '../config/index.js';
 export class AuthController {
     constructor(tokenService) {
         this.tokenService = tokenService;
@@ -133,7 +134,98 @@ export class AuthController {
         }
     };
 
-    uploadGallery = async (req, res, next) => {
+    refreshAccessToken = async (req, res, next) => {
+        try {
+            const refreshToken = req.cookies.refreshToken;
+            if (!refreshToken) {
+                return next(createHttpError(401, 'Refresh token not found'));
+            }
+
+            // Verify the refresh token
+            const decoded = jwt.verify(refreshToken, config.refreshKey);
+            if (!decoded) {
+                return next(createHttpError(401, 'Invalid refresh token'));
+            }
+
+            // Generate new tokens
+            const user = {
+                id: decoded.id,
+                email: decoded.email,
+                name: decoded.name,
+                profile: decoded.profile,
+            };
+
+            const newAccessToken = this.tokenService.generateAccessToken(user);
+            const newRefreshToken =
+                this.tokenService.generateRefreshToken(user);
+
+            // Set the new refresh token in cookie
+            res.cookie('refreshToken', newRefreshToken, {
+                domain: 'localhost',
+                sameSite: 'strict',
+                maxAge:
+                    1000 *
+                    60 *
+                    60 *
+                    24 *
+                    (new Date().getFullYear() % 4 === 0 ? 366 : 365),
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                path: '/',
+            });
+
+            res.json({
+                message: 'Token refreshed successfully',
+                accessToken: newAccessToken,
+                refreshToken: newRefreshToken,
+            });
+        } catch (error) {
+            if (error.name === 'TokenExpiredError') {
+                return next(createHttpError(401, 'Refresh token has expired'));
+            }
+            next(error);
+        }
+    };
+
+    logout = async (req, res, next) => {
+        try {
+            // Find and delete refresh token from database
+            const token = await prisma.refreshTokens.findFirst({
+                where: {
+                    userId: req.user.id,
+                },
+            });
+
+            if (token) {
+                await prisma.refreshTokens.delete({
+                    where: {
+                        id: token.id,
+                    },
+                });
+            }
+
+            // Clear cookies
+            res.clearCookie('accessToken', {
+                domain: 'localhost',
+                path: '/',
+            });
+            res.clearCookie('refreshToken', {
+                domain: 'localhost',
+                path: '/',
+            });
+
+            res.json({
+                success: true,
+                message: 'Logged out successfully',
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+}
+
+/*
+  uploadGallery = async (req, res, next) => {
         try {
             if (!req.files || req.files.length === 0) {
                 return next(
@@ -153,6 +245,4 @@ export class AuthController {
             next(error);
         }
     };
-
-    logout = async (req, res, next) => {};
-}
+*/

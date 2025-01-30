@@ -27,6 +27,10 @@ router.patch(
     asyncWrapper(authController.profileUpload)
 );
 
+router.post('/refresh', asyncWrapper(authController.refreshAccessToken));
+
+router.get('/logout', authMiddleware, asyncWrapper(authController.logout));
+
 // Multiple files with same field
 // router.post(
 //     '/upload-gallery',
